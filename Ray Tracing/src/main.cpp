@@ -11,8 +11,7 @@
 #include "camera.h"
 #include "material.h"
 
-
-float MAXFLOAT = 1000.0;
+#define MAXFLOAT 1000.0
 
 vec3 color(const ray& r, hitable *world, int depth) {
 	hit_record rec;
