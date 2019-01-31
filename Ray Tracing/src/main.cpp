@@ -32,12 +32,12 @@ vec3 color(const ray& r, hitable *world, int depth) {
 }
 
 hitable *random_scene() {
-	int n = 500;
+	int n = 700;
 	hitable **list = new hitable*[n + 1];
 	list[0] = new sphere(vec3(0, -1000, 0), 1000, new lambertian(vec3(0.5, 0.5, 0.5)));
 	int i = 1;
-	for (int a = -11; a < 11; a++) {
-		for (int b = -11; b < 11; b++) {
+	for (int a = -13; a < 12; a++) {
+		for (int b = -13; b < 12; b++) {
 			float choose_mat = ((double)rand() / (RAND_MAX));
 			vec3 center(a + 0.9*((double)rand() / (RAND_MAX)), 0.2, b + 0.9*((double)rand() / (RAND_MAX)));
 			if ((center - vec3(4, 0.2, 0)).length() > 0.9) {
@@ -56,8 +56,8 @@ hitable *random_scene() {
 	}
 
 	list[i++] = new sphere(vec3(0, 1, 0), 1.0, new dielectric(1.5));
-	list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new lambertian(vec3(0.4, 0.2, 0.1)));
-	list[i++] = new sphere(vec3(4, 1, 0), 1.0, new metal(vec3(0.7, 0.6, 0.5), 0.0));
+	list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new dielectric(1.5));
+	list[i++] = new sphere(vec3(4, 1, 0), 1.0, new dielectric(1.5));
 
 	return new hitable_list(list, i);
 }
@@ -67,7 +67,7 @@ int main() {
 
 	int nx = 200;
 	int ny = 100;
-	int ns = 5;
+	int ns = 2;
 
 	//Crar vector
 	std::vector<unsigned char> pixels;
