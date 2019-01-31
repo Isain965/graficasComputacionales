@@ -58,6 +58,7 @@ hitable *random_scene() {
 	list[i++] = new sphere(vec3(0, 1, 0), 1.0, new dielectric(1.5));
 	list[i++] = new sphere(vec3(-4, 1, 0), 1.0, new dielectric(1.5));
 	list[i++] = new sphere(vec3(4, 1, 0), 1.0, new dielectric(1.5));
+	list[i++] = new sphere(vec3(-8, 1, 0), 1.0, new dielectric(1.5));
 
 	return new hitable_list(list, i);
 }
@@ -65,9 +66,9 @@ hitable *random_scene() {
 
 int main() {
 
-	int nx = 200;
-	int ny = 100;
-	int ns = 2;
+	int nx = 1200;
+	int ny = 800;
+	int ns = 100;
 
 	//Crar vector
 	std::vector<unsigned char> pixels;
