@@ -7,6 +7,7 @@
 
 #include "scene.h"
 #include "scene_compatibility.h"
+#include "scene_primitives.h"
 #include "time.h"
 
 std::vector<std::unique_ptr<scene>> scene_manager::sceneList;
@@ -82,6 +83,9 @@ void scene_manager::initialize()
 	
 	std::unique_ptr<scene> scene1(new scene_compatibility);
 	sceneList.push_back(std::move(scene1));
+
+	std::unique_ptr<scene> scene2(new scene_primitives);
+	sceneList.push_back(std::move(scene2));
 
 	for (auto& s : sceneList)
 		s->init();

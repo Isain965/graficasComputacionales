@@ -50,6 +50,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\scene_compatibility.cpp" />
     <ClCompile Include="src\scene_manager.cpp" />
+    <ClCompile Include="src\scene_primitives.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.vcxproj">
@@ -63,6 +64,7 @@
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scene_compatibility.h" />
     <ClInclude Include="include\scene_manager.h" />
+    <ClInclude Include="include\scene_primitives.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
