@@ -35,8 +35,10 @@ void scene_primitives::init() {
 		sizeof(cgmath::vec2) * positions.size(),
 		positions.data(),
 		GL_DYNAMIC_DRAW);
+
 	// Prendo el atributo 0
 	glEnableVertexAttribArray(0);
+
 	// Voy a configurar el atributo 0
 	// Numero de components
 	// Tipo de dato de cada componente
@@ -44,6 +46,7 @@ void scene_primitives::init() {
 	// Desfazamiento entre los atributos en la lista
 	// Apuntador a los datos si no los hemos mandado
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	
 	// Cuando hacemos un bind con 0
 	// -> unbind
 	// Unbind de positionsVBO
