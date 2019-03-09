@@ -1,19 +1,47 @@
-﻿#include "scene_vertex.h"
+﻿#include "scene_fragment.h"
 
 #include "ifile.h"
 #include "time.h"
 #include <vector>
 #include <iostream>
+#include "vec2.h"
 
-scene_vertex::~scene_vertex() {
+
+scene_fragment::~scene_fragment() {
 
 	// Borramos la memoria del ejecutable cuando
 	// la escena deja de existir
 	glDeleteProgram(shader_program);
 }
 
-void scene_vertex::init()
+void scene_fragment::init()
 {
+	std::vector<cgmath::vec2>  positions;
+	positions.push_back(cgmath::vec2(-1.0f, -1.0f));
+	positions.push_back(cgmath::vec2(1.0f, -1.0f));
+	positions.push_back(cgmath::vec2(1.0f, 1.0f));
+	positions.push_back(cgmath::vec2(-1.0f, 1.0f));
+
+	std::vector<unsigned int> indices{ 0, 1, 2, 1, 2, 3 };
+
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glGenBuffers(1, &positionsVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO);
+	glBufferData(GL_ARRAY_BUFFER,
+		sizeof(cgmath::vec2) * positions.size(),
+		positions.data(),
+		GL_STATIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 
+		0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glGenBuffers(1, &indicesBuffer);
+	//glBufferData();
+
+
 	// ifile es parte del codigo que yo les doy
 	// El codigo fuente se encuentra en el proyecto Util
 	// Su unico proposito en la vida es leer archivos de texto
@@ -124,21 +152,21 @@ void scene_vertex::init()
 	glDeleteShader(fragment_shader);
 }
 
-void scene_vertex::awake() {
+void scene_fragment::awake() {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 }
 
-void scene_vertex::sleep() {
+void scene_fragment::sleep() {
 	glClearColor(1.0f, 1.0f, 0.5f, 1.0f);
 	glDisable(GL_PROGRAM_POINT_SIZE);
 }
 
-void scene_vertex::mainLoop() {
+void scene_fragment::mainLoop() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glUseProgram(shader_program);
+	// glUseProgram(scene_fragment);
 	GLuint time_location = glGetUniformLocation(shader_program, "time");
 	glUniform1f(time_location, time::elapsed_time().count());
 	glDrawArrays(GL_LINE_STRIP, 0, 100);
@@ -146,6 +174,6 @@ void scene_vertex::mainLoop() {
 
 }
 
-void scene_vertex::resize(int width, int height) {
+void scene_fragment::resize(int width, int height) {
 
 }

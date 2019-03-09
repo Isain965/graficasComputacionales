@@ -36,6 +36,9 @@
     <ClCompile Include="src\scene_chaikin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene_fragment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\scene_manager.h">
@@ -59,5 +62,12 @@
     <ClInclude Include="include\scene_chaikin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\scene_fragment.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\grid.vert" />
+    <None Include="shaders\solid_color.frag" />
   </ItemGroup>
 </Project>
