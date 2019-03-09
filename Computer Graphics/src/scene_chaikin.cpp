@@ -4,15 +4,15 @@
 
 #include <vector>
 
-static void ditto_points(std::vector<cgmath::vec2> &positions) {
+static void ditto_points_body(std::vector<cgmath::vec2> &positions) {
 	positions.push_back(cgmath::vec2(-0.52f, 0.50f));
 	positions.push_back(cgmath::vec2(-1.0f, 0.25f));
 	positions.push_back(cgmath::vec2(-0.77f, 0.0f));
 	positions.push_back(cgmath::vec2(-0.62f, -0.12f));
 	positions.push_back(cgmath::vec2(-0.78f, -0.25f));
 	positions.push_back(cgmath::vec2(-0.9f, -0.41f));
-	positions.push_back(cgmath::vec2(-0.85f, -0.64f));
-	positions.push_back(cgmath::vec2(-0.81f, -0.85f));
+	positions.push_back(cgmath::vec2(-0.923f, -0.7f));
+	positions.push_back(cgmath::vec2(-0.792f, -0.868f));
 	positions.push_back(cgmath::vec2(-0.55f, -0.79f));
 	positions.push_back(cgmath::vec2(-0.36f, -0.69f));
 	positions.push_back(cgmath::vec2(-0.13f, -0.79f));
@@ -22,26 +22,48 @@ static void ditto_points(std::vector<cgmath::vec2> &positions) {
 	positions.push_back(cgmath::vec2(0.59f, -0.76f));
 	positions.push_back(cgmath::vec2(0.98f, -0.77f));
 	positions.push_back(cgmath::vec2(0.91f, -0.46f));
-	positions.push_back(cgmath::vec2(0.65f, -0.10f));
-	positions.push_back(cgmath::vec2(0.90f, 0.15f));
+	positions.push_back(cgmath::vec2(0.692f, -0.103f));
+	positions.push_back(cgmath::vec2(0.907f, 0.098f));
 	positions.push_back(cgmath::vec2(1.0f, 0.29f));
-	positions.push_back(cgmath::vec2(0.84f, 0.39f));
+	positions.push_back(cgmath::vec2(0.842f, 0.414f));
 	positions.push_back(cgmath::vec2(0.62f, 0.49f));
 	positions.push_back(cgmath::vec2(0.54f, 0.72f));
 	positions.push_back(cgmath::vec2(0.42f, 0.89f));
 	positions.push_back(cgmath::vec2(0.22f, 0.82f));
-	positions.push_back(cgmath::vec2(0.02f, 0.72f));
+	positions.push_back(cgmath::vec2(0.05f, 0.728f));
 	positions.push_back(cgmath::vec2(-0.07f, 0.81f));
 	positions.push_back(cgmath::vec2(-0.24f, 0.87f));
 	positions.push_back(cgmath::vec2(-0.38f, 0.73f));
-	positions.push_back(cgmath::vec2(-0.49f, 0.62f));
+	positions.push_back(cgmath::vec2(-0.45f, 0.627f));
 	positions.push_back(cgmath::vec2(-0.52f, 0.50f));
 }
 
-std::vector<cgmath::vec2> calculate_chaikin(std::vector<cgmath::vec2> positions) {
+static void ditto_points_boca(std::vector<cgmath::vec2> &positions) { 
+	positions.push_back(cgmath::vec2(-0.1f, 0.385f));
+	positions.push_back(cgmath::vec2(0.09f, 0.378f));
+	positions.push_back(cgmath::vec2(0.23f, 0.394f));
+	positions.push_back(cgmath::vec2(0.42f, 0.438f));
+}
+
+static void ditto_points_eye_1(std::vector<cgmath::vec2> &positions) {
+	positions.push_back(cgmath::vec2(0.015f, 0.59f));
+	positions.push_back(cgmath::vec2(0.015f, 0.5f));
+	positions.push_back(cgmath::vec2(0.045f, 0.5f));
+	positions.push_back(cgmath::vec2(0.045f, 0.59f));
+}
+
+static void ditto_points_eye_2(std::vector<cgmath::vec2> &positions) {
+	positions.push_back(cgmath::vec2(0.255f, 0.61f));
+	positions.push_back(cgmath::vec2(0.255f, 0.52f));
+	positions.push_back(cgmath::vec2(0.285f, 0.52f));
+	positions.push_back(cgmath::vec2(0.285f, 0.61f));
+}
+
+
+std::vector<cgmath::vec2> calculate_chaikin(int refinamientos, std::vector<cgmath::vec2> positions, int boca) {
 	std::vector<cgmath::vec2> newPos = positions;
 	// Para los refinamientos
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < refinamientos; i++) {
 
 		std::vector<cgmath::vec2> newPoints;
 
@@ -55,9 +77,11 @@ std::vector<cgmath::vec2> calculate_chaikin(std::vector<cgmath::vec2> positions)
 
 			if ((x + 1) == newPos.size()) {
 				next = 0;
-			}
 
-			//std::cout << "next: " << next << "x: " << x << "\n";
+				if (boca == 2) {
+					next = x;
+				}
+			}
 			
 
 			float Qx = (3.0 / 4.0 * newPos[x].x) + (1.0 / 4.0 * newPos[next].x);
@@ -85,58 +109,96 @@ std::vector<cgmath::vec2> calculate_chaikin(std::vector<cgmath::vec2> positions)
 // cuando inicia la aplicacion
 void scene_chaikin::init() {
 
+	/***********Para el cuerpo ***************/
 	std::vector<cgmath::vec2> positions;
 
-	ditto_points(positions);
+	ditto_points_body(positions);
 
-	std::vector<cgmath::vec2> positionsChaikin = calculate_chaikin(positions);
+	std::vector<cgmath::vec2> positionsChaikin = calculate_chaikin(10, positions, 1);
 
 	sizeDitto = positionsChaikin.size();
 	std::cout << sizeDitto << " --> sizeDitto\n";
 
-	// Crear un identificador para un
-	// Vertex Array Object
-	// Guarda el id en vao
+
+	/***********Para la boca ****************/
+	std::vector<cgmath::vec2> positions_boca;
+
+	ditto_points_boca(positions_boca);
+
+	std::vector<cgmath::vec2> positionsChaikin_boca = calculate_chaikin(10, positions_boca, 2);
+
+	sizeBoca = positionsChaikin_boca.size();
+	std::cout << sizeBoca << " --> sizeBoca\n";
+
+
+	/***********Para el ojo 1 ****************/
+	std::vector<cgmath::vec2> positions_eye_1;
+
+	ditto_points_eye_1(positions_eye_1);
+
+	std::vector<cgmath::vec2> positionsChaikin_eye_1 = calculate_chaikin(10, positions_eye_1, 3);
+
+	sizeEye1 = positionsChaikin_eye_1.size();
+	std::cout << sizeEye1 << " --> sizeOjo1\n";
+
+	/***********Para el ojo 2 ****************/
+	std::vector<cgmath::vec2> positions_eye_2;
+
+	ditto_points_eye_2(positions_eye_2);
+
+	std::vector<cgmath::vec2> positionsChaikin_eye_2 = calculate_chaikin(10, positions_eye_2, 3);
+
+	sizeEye2 = positionsChaikin_eye_2.size();
+	std::cout << sizeEye2 << " --> sizeOjo2\n";
+
+
+
+	/***********Para el cuerpo ***************/
 	glGenVertexArrays(1, &vao);
-	// Quiero comenzar a trabajar con
-	// el siguiente vao
 	glBindVertexArray(vao);
-
-	// Crar un identificado para un
-	// Vertex Buffer Object
-	// Guardar el id en positionsVBO
 	glGenBuffers(1, &positionsVBO);
-	// Quiero trabajar con el buffer positionsBVO
 	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO);
-	// Crear la memoria del buffer,
-	// especifica los datos
-	// y la manda al GPU
-	glBufferData(GL_ARRAY_BUFFER,
-		sizeof(cgmath::vec2) * positionsChaikin.size(),
-		positionsChaikin.data(),
-		GL_DYNAMIC_DRAW);
-
-	// Prendo el atributo 0
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin.size(), positionsChaikin.data(), GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
-
-	// Voy a configurar el atributo 0
-	// Numero de components
-	// Tipo de dato de cada componente
-	// Normalizamos los datos??
-	// Desfazamiento entre los atributos en la lista
-	// Apuntador a los datos si no los hemos mandado
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
-
-	// Cuando hacemos un bind con 0
-	// -> unbind
-	// Unbind de positionsVBO
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-	// Unbind del vao
 	glBindVertexArray(0);
 
-	primitiveType = GL_POINTS;
+
+	/***********Para la boca ****************/
+	glGenVertexArrays(1, &vao_boca);
+	glBindVertexArray(vao_boca);
+	glGenBuffers(1, &positionsVBO_boca);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_boca);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin_boca.size(), positionsChaikin_boca.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	/***********Para el ojo 1 ****************/
+	glGenVertexArrays(1, &vao_eye1);
+	glBindVertexArray(vao_eye1);
+	glGenBuffers(1, &positionsVBO_eye1);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_eye1);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin_eye_1.size(), positionsChaikin_eye_1.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	/***********Para el ojo 2 ****************/
+	glGenVertexArrays(1, &vao_eye2);
+	glBindVertexArray(vao_eye2);
+	glGenBuffers(1, &positionsVBO_eye2);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_eye2);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin_eye_2.size(), positionsChaikin_eye_2.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	primitiveType = GL_LINE_STRIP;
 }
 
 void scene_chaikin::awake() {
@@ -151,29 +213,37 @@ void scene_chaikin::sleep() {
 void scene_chaikin::mainLoop() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Bind del vao que tiene todos los atributos
+	/***************Para el cuerpo****************/
 	glBindVertexArray(vao);
-	// Llamada a dibujar
-	// tipo de primitiva
-	// Desde que vertice se comienza a dibujar y 
-	// cuantos vertices
 	glDrawArrays(primitiveType, 0, sizeDitto);
-	// Unbind del vao y todos los atributos
+	glBindVertexArray(0);
+
+
+	/***************Para la boca****************/
+	glBindVertexArray(vao_boca);
+	glDrawArrays(primitiveType, 0, sizeBoca);
+	glBindVertexArray(0);
+
+
+	/***************Para el ojo 1****************/
+	glBindVertexArray(vao_eye1);
+	glDrawArrays(primitiveType, 0, sizeEye1);
+	glBindVertexArray(0);
+
+	/***************Para el ojo 2****************/
+	glBindVertexArray(vao_eye2);
+	glDrawArrays(primitiveType, 0, sizeEye2);
 	glBindVertexArray(0);
 
 }
 
 void scene_chaikin::normalKeysDown(unsigned char key) {
 	if (key == '1') {
-		primitiveType = GL_POINTS;
+		primitiveType = GL_LINES;
 	}
 
 	if (key == '2') {
 		primitiveType = GL_LINE_STRIP;
-	}
-
-	if (key == '3') {
-		primitiveType = GL_TRIANGLES;
 	}
 }
 
