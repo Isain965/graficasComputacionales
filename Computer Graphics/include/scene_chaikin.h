@@ -23,18 +23,34 @@ class scene_chaikin : public scene {
 		GLuint vao_eye1;
 		GLuint vao_eye2;
 
+		GLuint vao_r;
+		GLuint vao_boca_r;
+		GLuint vao_eye1_r;
+		GLuint vao_eye2_r;
+
 		// Este es el buffer con el atributo
 		GLuint positionsVBO;
 		GLuint positionsVBO_boca;
 		GLuint positionsVBO_eye1;
 		GLuint positionsVBO_eye2;
 
+		GLuint positionsVBO_r;
+		GLuint positionsVBO_boca_r;
+		GLuint positionsVBO_eye1_r;
+		GLuint positionsVBO_eye2_r;
+
 		//
 		GLenum primitiveType;
+		GLenum primitiveType_r;
 
 		int sizeDitto;
 		int sizeBoca;
 		int sizeEye1;
 		int sizeEye2;
+
+		int sizeDitto_r;
+		int sizeBoca_r;
+		int sizeEye1_r;
+		int sizeEye2_r;
 
 };

@@ -113,11 +113,15 @@ void scene_chaikin::init() {
 	std::vector<cgmath::vec2> positions;
 
 	ditto_points_body(positions);
+	std::vector<cgmath::vec2> positions_r = positions;
 
 	std::vector<cgmath::vec2> positionsChaikin = calculate_chaikin(10, positions, 1);
 
 	sizeDitto = positionsChaikin.size();
+	sizeDitto_r = positions_r.size();
+
 	std::cout << sizeDitto << " --> sizeDitto\n";
+	std::cout << sizeDitto_r << " --> sizeDitto sin chaikin\n";
 
 
 	/***********Para la boca ****************/
@@ -128,7 +132,10 @@ void scene_chaikin::init() {
 	std::vector<cgmath::vec2> positionsChaikin_boca = calculate_chaikin(10, positions_boca, 2);
 
 	sizeBoca = positionsChaikin_boca.size();
+	sizeBoca_r = positions_boca.size();
+
 	std::cout << sizeBoca << " --> sizeBoca\n";
+	std::cout << sizeBoca_r << " --> sizeBoca sin chaikin";
 
 
 	/***********Para el ojo 1 ****************/
@@ -139,7 +146,10 @@ void scene_chaikin::init() {
 	std::vector<cgmath::vec2> positionsChaikin_eye_1 = calculate_chaikin(10, positions_eye_1, 3);
 
 	sizeEye1 = positionsChaikin_eye_1.size();
+	sizeEye1_r = positions_eye_1.size();
+
 	std::cout << sizeEye1 << " --> sizeOjo1\n";
+	std::cout << sizeEye1_r << " --> sizeOjo1 sin chaikin\n";
 
 	/***********Para el ojo 2 ****************/
 	std::vector<cgmath::vec2> positions_eye_2;
@@ -149,7 +159,10 @@ void scene_chaikin::init() {
 	std::vector<cgmath::vec2> positionsChaikin_eye_2 = calculate_chaikin(10, positions_eye_2, 3);
 
 	sizeEye2 = positionsChaikin_eye_2.size();
+	sizeEye2_r = positions_eye_2.size();
+
 	std::cout << sizeEye2 << " --> sizeOjo2\n";
+	std::cout << sizeEye2_r << " --> sizeOjo2 sin chaikin\n";
 
 
 
@@ -159,6 +172,16 @@ void scene_chaikin::init() {
 	glGenBuffers(1, &positionsVBO);
 	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin.size(), positionsChaikin.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	glGenVertexArrays(1, &vao_r);
+	glBindVertexArray(vao_r);
+	glGenBuffers(1, &positionsVBO_r);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_r);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positions_r.size(), positions_r.data(), GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -176,12 +199,32 @@ void scene_chaikin::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	glGenVertexArrays(1, &vao_boca_r);
+	glBindVertexArray(vao_boca_r);
+	glGenBuffers(1, &positionsVBO_boca_r);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_boca_r);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positions_boca.size(), positions_boca.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
 	/***********Para el ojo 1 ****************/
 	glGenVertexArrays(1, &vao_eye1);
 	glBindVertexArray(vao_eye1);
 	glGenBuffers(1, &positionsVBO_eye1);
 	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_eye1);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positionsChaikin_eye_1.size(), positionsChaikin_eye_1.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	glGenVertexArrays(1, &vao_eye1_r);
+	glBindVertexArray(vao_eye1_r);
+	glGenBuffers(1, &positionsVBO_eye1_r);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_eye1_r);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positions_eye_1.size(), positions_eye_1.data(), GL_DYNAMIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -198,7 +241,18 @@ void scene_chaikin::init() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	glGenVertexArrays(1, &vao_eye2_r);
+	glBindVertexArray(vao_eye2_r);
+	glGenBuffers(1, &positionsVBO_eye2_r);
+	glBindBuffer(GL_ARRAY_BUFFER, positionsVBO_eye2_r);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(cgmath::vec2) * positions_eye_2.size(), positions_eye_2.data(), GL_DYNAMIC_DRAW);
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
 	primitiveType = GL_LINE_STRIP;
+	// primitiveType_r = GL_LINES;
 }
 
 void scene_chaikin::awake() {
@@ -218,10 +272,18 @@ void scene_chaikin::mainLoop() {
 	glDrawArrays(primitiveType, 0, sizeDitto);
 	glBindVertexArray(0);
 
+	glBindVertexArray(vao_r);
+	glDrawArrays(primitiveType_r, 0, sizeDitto_r);
+	glBindVertexArray(0);
+
 
 	/***************Para la boca****************/
 	glBindVertexArray(vao_boca);
 	glDrawArrays(primitiveType, 0, sizeBoca);
+	glBindVertexArray(0);
+
+	glBindVertexArray(vao_boca_r);
+	glDrawArrays(primitiveType_r, 0, sizeBoca_r);
 	glBindVertexArray(0);
 
 
@@ -230,20 +292,37 @@ void scene_chaikin::mainLoop() {
 	glDrawArrays(primitiveType, 0, sizeEye1);
 	glBindVertexArray(0);
 
+	glBindVertexArray(vao_eye1_r);
+	glDrawArrays(primitiveType_r, 0, sizeEye1_r);
+	glBindVertexArray(0);
+
 	/***************Para el ojo 2****************/
 	glBindVertexArray(vao_eye2);
 	glDrawArrays(primitiveType, 0, sizeEye2);
 	glBindVertexArray(0);
 
+	glBindVertexArray(vao_eye2_r);
+	glDrawArrays(primitiveType_r, 0, sizeEye2_r);
+	glBindVertexArray(0);
 }
 
 void scene_chaikin::normalKeysDown(unsigned char key) {
+	// Para mostrar solo la figura bien
 	if (key == '1') {
-		primitiveType = GL_LINES;
+		primitiveType = GL_LINE_STRIP;
+		primitiveType_r = GL_LINE_STIPPLE;
 	}
 
+	// Para resaltar las lineas originales que despues fueron deformadas
 	if (key == '2') {
+		primitiveType = GL_LINES;
+		primitiveType_r = GL_LINE_STRIP;
+	}
+
+	// Para mostrar sobre puestas las lineas reales sobre las deformadas
+	if (key == '3') {
 		primitiveType = GL_LINE_STRIP;
+		primitiveType_r = GL_LINE_STRIP;
 	}
 }
 
