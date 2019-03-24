@@ -12,8 +12,7 @@ scene_vertex::~scene_vertex() {
 	glDeleteProgram(shader_program);
 }
 
-void scene_vertex::init()
-{
+void scene_vertex::init() {
 	// ifile es parte del codigo que yo les doy
 	// El codigo fuente se encuentra en el proyecto Util
 	// Su unico proposito en la vida es leer archivos de texto
@@ -48,11 +47,6 @@ void scene_vertex::init()
 	// Compilamos el codigo fuente contenido en el shader
 	// con identificador vertex_shader.
 	glCompileShader(vertex_shader);
-
-	// Adicionalmente, habria que verificar que el proceso de
-	// compilacion ha sido completado de manera exitosa.
-	// Por tiempo, simplemente asumimos que el codigo no
-	// tenia errores.
 
 	// Repetimos el mismo proceso, pero ahora para un
 	// fragment shader contenido en un archivo llamado

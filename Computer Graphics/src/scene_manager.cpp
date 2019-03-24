@@ -11,6 +11,10 @@
 #include "scene_conchoid.h"
 #include "scene_chaikin.h"
 #include "scene_vertex.h"
+#include "scene_circle_grid.h"
+#include "scene_sphere.h"
+#include "scene_circle.h"
+#include "scene_cube.h"
 #include "time.h"
 
 std::vector<std::unique_ptr<scene>> scene_manager::sceneList;

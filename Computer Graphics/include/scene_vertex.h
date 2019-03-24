@@ -4,22 +4,21 @@
 
 // Escena de prueba para comenzar a trabajar con
 // vertex shaders.
-class scene_vertex : public scene
-{
-public:
-	~scene_vertex();
+class scene_vertex : public scene {
+	public:
+		~scene_vertex();
 
-	void init();
-	void awake();
-	void sleep();
-	void reset() { }
-	void mainLoop();
-	void resize(int width, int height);
-	void normalKeysDown(unsigned char key) { }
-	void normalKeysUp(unsigned char key) { }
-	void specialKeys(int key) { }
-	void passiveMotion(int x, int y) { }
+		void init();
+		void awake();
+		void sleep();
+		void reset() { }
+		void mainLoop();
+		void resize(int width, int height);
+		void normalKeysDown(unsigned char key) { }
+		void normalKeysUp(unsigned char key) { }
+		void specialKeys(int key) { }
+		void passiveMotion(int x, int y) { }
 
-private:
-	GLuint shader_program;
+	private:
+		GLuint shader_program;
 };
