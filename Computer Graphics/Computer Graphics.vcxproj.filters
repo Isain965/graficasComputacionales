@@ -99,5 +99,7 @@
     <None Include="shaders\cube.frag" />
     <None Include="shaders\circle.vert" />
     <None Include="shaders\circle.frag" />
+    <None Include="shaders\palmtree.frag" />
+    <None Include="shaders\simple_pass.vert" />
   </ItemGroup>
 </Project>

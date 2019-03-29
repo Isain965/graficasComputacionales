@@ -89,6 +89,8 @@
     <None Include="shaders\cube.frag" />
     <None Include="shaders\grid.vert" />
     <None Include="shaders\circle.frag" />
+    <None Include="shaders\palmtree.frag" />
+    <None Include="shaders\simple_pass.vert" />
     <None Include="shaders\solid_color.frag" />
     <None Include="shaders\sphere.vert" />
   </ItemGroup>

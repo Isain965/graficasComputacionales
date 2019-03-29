@@ -11,6 +11,7 @@
 #include "scene_conchoid.h"
 #include "scene_chaikin.h"
 #include "scene_vertex.h"
+#include "scene_fragment.h"
 #include "scene_circle_grid.h"
 #include "scene_sphere.h"
 #include "scene_circle.h"
@@ -100,20 +101,23 @@ void scene_manager::initialize()
 	//std::unique_ptr<scene> scene4(new scene_chaikin);
 	//sceneList.push_back(std::move(scene4));
 
-	//std::unique_ptr<scene> scene5(new scene_vertex);
-	//sceneList.push_back(std::move(scene5));
+	std::unique_ptr<scene> scene5(new scene_vertex);
+	sceneList.push_back(std::move(scene5));
 
-	std::unique_ptr<scene> scene6(new scene_circle_grid);
+	std::unique_ptr<scene> scene6(new scene_fragment);
 	sceneList.push_back(std::move(scene6));
 
-	std::unique_ptr<scene> scene7(new scene_sphere);
+	std::unique_ptr<scene> scene7(new scene_circle_grid);
 	sceneList.push_back(std::move(scene7));
 
-	std::unique_ptr<scene> scene8(new scene_circle);
+	std::unique_ptr<scene> scene8(new scene_sphere);
 	sceneList.push_back(std::move(scene8));
 
-	std::unique_ptr<scene> scene9(new scene_cube);
+	std::unique_ptr<scene> scene9(new scene_circle);
 	sceneList.push_back(std::move(scene9));
+
+	std::unique_ptr<scene> scene10(new scene_cube);
+	sceneList.push_back(std::move(scene10));
 
 	for (auto& s : sceneList)
 		s->init();
