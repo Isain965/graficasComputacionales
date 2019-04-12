@@ -47,6 +47,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\scene_cube_texture.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\scene_chaikin.cpp" />
     <ClCompile Include="src\scene_circle.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="include\scene_compatibility.h" />
     <ClInclude Include="include\scene_conchoid.h" />
     <ClInclude Include="include\scene_cube.h" />
+    <ClInclude Include="include\scene_cube_texture.h" />
     <ClInclude Include="include\scene_fragment.h" />
     <ClInclude Include="include\scene_manager.h" />
     <ClInclude Include="include\scene_primitives.h" />
