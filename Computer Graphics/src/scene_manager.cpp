@@ -17,6 +17,7 @@
 #include "scene_circle.h"
 #include "scene_cube.h"
 #include "scene_cube_texture.h"
+#include "scene_perlin.h"
 #include "time.h"
 
 std::vector<std::unique_ptr<scene>> scene_manager::sceneList;
@@ -87,41 +88,44 @@ void scene_manager::prev()
 void scene_manager::initialize()
 {
 	// Ejemplo de como agregar escenas al proyecto
-	//std::unique_ptr<scene> somescene(new scene_project);
-	//sceneList.push_back(std::move(somescene));
+	// std::unique_ptr<scene> somescene(new scene_project);
+	// sceneList.push_back(std::move(somescene));
 	
-	//std::unique_ptr<scene> scene1(new scene_compatibility);
-	//sceneList.push_back(std::move(scene1));
+	/*std::unique_ptr<scene> scene1(new scene_compatibility);
+	sceneList.push_back(std::move(scene1));
 
-	//std::unique_ptr<scene> scene2(new scene_primitives);
-	//sceneList.push_back(std::move(scene2));
+	std::unique_ptr<scene> scene2(new scene_primitives);
+	sceneList.push_back(std::move(scene2));
 
-	//std::unique_ptr<scene> scene3(new scene_conchoid);
-	//sceneList.push_back(std::move(scene3));
+	std::unique_ptr<scene> scene3(new scene_conchoid);
+	sceneList.push_back(std::move(scene3));
 
-	//std::unique_ptr<scene> scene4(new scene_chaikin);
-	//sceneList.push_back(std::move(scene4));
+	std::unique_ptr<scene> scene4(new scene_chaikin);
+	sceneList.push_back(std::move(scene4));
 
-	//std::unique_ptr<scene> scene5(new scene_vertex);
-	//sceneList.push_back(std::move(scene5));
+	std::unique_ptr<scene> scene5(new scene_vertex);
+	sceneList.push_back(std::move(scene5));
 
-	//std::unique_ptr<scene> scene6(new scene_fragment);
-	//sceneList.push_back(std::move(scene6));
+	std::unique_ptr<scene> scene6(new scene_fragment);
+	sceneList.push_back(std::move(scene6));
 
-	//std::unique_ptr<scene> scene7(new scene_circle_grid);
-	//sceneList.push_back(std::move(scene7));
+	std::unique_ptr<scene> scene7(new scene_circle_grid);
+	sceneList.push_back(std::move(scene7));
 
-	//std::unique_ptr<scene> scene8(new scene_sphere);
-	//sceneList.push_back(std::move(scene8));
+	std::unique_ptr<scene> scene8(new scene_sphere);
+	sceneList.push_back(std::move(scene8));
 
-	//std::unique_ptr<scene> scene9(new scene_circle);
-	//sceneList.push_back(std::move(scene9));
+	std::unique_ptr<scene> scene9(new scene_circle);
+	sceneList.push_back(std::move(scene9));*/
 
-	//std::unique_ptr<scene> scene10(new scene_cube);
-	//sceneList.push_back(std::move(scene10));
+	std::unique_ptr<scene> scene10(new scene_cube);
+	sceneList.push_back(std::move(scene10));
 
-	std::unique_ptr<scene> scene11(new scene_cube_texture);
+	std::unique_ptr<scene> scene11(new scene_perlin);
 	sceneList.push_back(std::move(scene11));
+
+	//std::unique_ptr<scene> scene11(new scene_cube_texture);
+	//sceneList.push_back(std::move(scene11));
 
 	for (auto& s : sceneList)
 		s->init();

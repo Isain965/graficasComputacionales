@@ -24,5 +24,9 @@ class scene_cube_texture : public scene {
 		GLuint colorsVBO;
 		GLuint indicesBuffer;
 
+		GLuint imageID;
+		GLuint textureId;
+		GLuint textureBuffer;
+
 		float aspect;
 };
