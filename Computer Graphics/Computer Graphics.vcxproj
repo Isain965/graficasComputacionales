@@ -91,6 +91,8 @@
     <None Include="shaders\circle_grid.vert" />
     <None Include="shaders\cube.vert" />
     <None Include="shaders\cube.frag" />
+    <None Include="shaders\cube_texture.frag" />
+    <None Include="shaders\cube_texture.vert" />
     <None Include="shaders\grid.vert" />
     <None Include="shaders\circle.frag" />
     <None Include="shaders\palmtree.frag" />

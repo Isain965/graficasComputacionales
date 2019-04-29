@@ -115,5 +115,7 @@
     <None Include="shaders\simple_pass.vert" />
     <None Include="shaders\texture.frag" />
     <None Include="shaders\texture.vert" />
+    <None Include="shaders\cube_texture.frag" />
+    <None Include="shaders\cube_texture.vert" />
   </ItemGroup>
 </Project>
