@@ -71,7 +71,7 @@ std::vector<cgmath::vec2> calculate_chaikin(int refinamientos, std::vector<cgmat
 		for (int x = 0; x < newPos.size(); x++) {
 			// formula
 			//Qi = (3.0 / 4.0 * Pi) + (1.0 / 4.0 * Pi+1)
-			//Ri = (1.0 / 4.0 * Pi) + (3.0 / 4.0 * Pi+1)
+			//Ri = (1.0 / 4.0 * Pi+1) + (3.0 / 4.0 * Pi)
 
 			int next = x + 1;
 

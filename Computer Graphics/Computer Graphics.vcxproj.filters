@@ -54,6 +54,9 @@
     <ClCompile Include="src\scene_cube_texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\perlin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\scene_perlin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,6 +101,12 @@
     <ClInclude Include="include\scene_cube_texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\perlin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cgmath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="include\scene_perlin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -117,5 +126,7 @@
     <None Include="shaders\texture.vert" />
     <None Include="shaders\cube_texture.frag" />
     <None Include="shaders\cube_texture.vert" />
+    <None Include="shaders\terrain.vert" />
+    <None Include="shaders\terrain.frag" />
   </ItemGroup>
 </Project>

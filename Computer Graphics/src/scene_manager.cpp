@@ -118,14 +118,14 @@ void scene_manager::initialize()
 	std::unique_ptr<scene> scene9(new scene_circle);
 	sceneList.push_back(std::move(scene9));*/
 
-	std::unique_ptr<scene> scene10(new scene_cube);
-	sceneList.push_back(std::move(scene10));
+	//std::unique_ptr<scene> scene10(new scene_cube);
+	//sceneList.push_back(std::move(scene10));
 
 	//std::unique_ptr<scene> scene11(new scene_cube_texture);
 	//sceneList.push_back(std::move(scene11));
 
-	std::unique_ptr<scene> scene11(new scene_perlin);
-	sceneList.push_back(std::move(scene11));
+	std::unique_ptr<scene> scene12(new scene_perlin);
+	sceneList.push_back(std::move(scene12));
 
 	for (auto& s : sceneList)
 		s->init();

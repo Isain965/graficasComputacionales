@@ -47,6 +47,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\perlin.cpp" />
     <ClCompile Include="src\scene_cube_texture.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\scene_chaikin.cpp" />
@@ -57,10 +58,10 @@
     <ClCompile Include="src\scene_cube.cpp" />
     <ClCompile Include="src\scene_fragment.cpp" />
     <ClCompile Include="src\scene_manager.cpp" />
-    <ClCompile Include="src\scene_perlin.cpp" />
     <ClCompile Include="src\scene_primitives.cpp" />
     <ClCompile Include="src\scene_sphere.cpp" />
     <ClCompile Include="src\scene_vertex.cpp" />
+    <ClCompile Include="src\scene_perlin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Math\Math.vcxproj">
@@ -71,6 +72,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\cgmath.h" />
+    <ClInclude Include="include\perlin.h" />
     <ClInclude Include="include\scene.h" />
     <ClInclude Include="include\scene_chaikin.h" />
     <ClInclude Include="include\scene_circle.h" />
@@ -81,12 +84,14 @@
     <ClInclude Include="include\scene_cube_texture.h" />
     <ClInclude Include="include\scene_fragment.h" />
     <ClInclude Include="include\scene_manager.h" />
-    <ClInclude Include="include\scene_perlin.h" />
     <ClInclude Include="include\scene_primitives.h" />
     <ClInclude Include="include\scene_sphere.h" />
     <ClInclude Include="include\scene_vertex.h" />
+    <ClInclude Include="include\scene_perlin.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\terrain.frag" />
+    <None Include="shaders\terrain.vert" />
     <None Include="shaders\circle.vert" />
     <None Include="shaders\circle_grid.vert" />
     <None Include="shaders\cube.vert" />

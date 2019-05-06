@@ -61,6 +61,18 @@ cgmath::mat3 cgmath::mat3::inverse(const mat3& m) {
 	return inv;
 }
 
+cgmath::mat3::mat3(mat4 m) {
+	n[0][0] = m[0][0];
+	n[0][1] = m[0][1];
+	n[0][2] = m[0][2];
+	n[1][0] = m[1][0];
+	n[1][1] = m[1][1];
+	n[1][2] = m[1][2];
+	n[2][0] = m[2][0];
+	n[2][1] = m[2][1];
+	n[2][2] = m[2][2];
+}
+
 cgmath::mat3 cgmath::mat3::transpose(const mat3& m) {
 	const vec3& a = m[0];
 	const vec3& b = m[1];

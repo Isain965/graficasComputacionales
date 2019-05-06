@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vec3.h"
+#include "mat4.h"
 
 namespace cgmath {
 	class mat3 {
@@ -10,6 +11,7 @@ namespace cgmath {
 			mat3();
 			mat3(float diagonal);
 			mat3(const vec3& a, const vec3& b, const vec3& c);
+			mat3(mat4 m);
 
 			vec3& operator[](int column);
 			const vec3& operator[](int column) const;
