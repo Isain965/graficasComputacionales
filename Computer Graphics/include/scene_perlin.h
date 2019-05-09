@@ -43,4 +43,8 @@ public:
 
 		// Para poder cambiar la primitiva
 		GLenum primitiveType;
+
+		int index;
+
+		bool flag;
 };

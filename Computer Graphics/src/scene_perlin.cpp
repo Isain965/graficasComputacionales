@@ -12,7 +12,7 @@ static void rotationX(cgmath::mat4 &mRotationX);
 static void rotationY(cgmath::mat4 &mRotationY);
 static void rotationZ(cgmath::mat4 &mRotationZ);
 //Chaikin
-void calculate_chaikin(int refinamientos, std::vector<cgmath::vec3> positions);
+std::vector<cgmath::vec3> calculate_chaikin(int refinamientos, std::vector<cgmath::vec3> positions, int boca);
 // Calculo de las normales
 void calculateNormal(std::vector<cgmath::vec3>& normales, std::vector<cgmath::vec3>& vertices, std::vector<unsigned int>& indices);
 
@@ -23,6 +23,49 @@ scene_perlin::~scene_perlin() {
 }
 
 void scene_perlin::init() {
+
+	// Generacion de puntos que utilizara la camara
+	std::vector< int> camPosX;
+	for (int i = 0; i < 1; i++) {
+		for (float y = 400.0f; y > 200.0f; y--) {
+			camPosX.push_back(y);
+		}
+		for (float y = 200.0f; y < 400.0f; y++) {
+			camPosX.push_back(y);
+		}
+	}
+	std::vector< int> camPosY;
+	for (int i = 0; i < 10; i++) {
+		for (float y = 80.0f; y < 85.0f; y++) {
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+		}
+		for (float y = 85.0f; y > 80.0f; y--) {
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+			camPosY.push_back(y);
+		}
+	}
+	std::vector< int> camPosZ;
+	for (int i = 0; i < 2; i++) {
+		for (float y = 150.0f; y > 50.0f; y--) {
+			camPosZ.push_back(y);
+		}
+		for (float y = 50.0f; y < 150.0f; y++) {
+			camPosZ.push_back(y);
+		}
+	}
+	for (int x = 0; x < camPosX.size(); x++) {
+		positions.push_back(cgmath::vec3(camPosX[x], camPosY[x], camPosZ[x]));
+	}
+
+	positions = calculate_chaikin(10, positions, 1);
+	std::cout << positions.size() << std::endl;
+
+
 
 	primitiveType = GL_LINE_STRIP;
 
@@ -61,13 +104,6 @@ void scene_perlin::init() {
 		}
 	}
 
-	// Los puntos de Perlin generados
-	// anteriormete ahora los guardaremos como
-	// Unsigned binary integer
-	std::vector<GLubyte> perlinPoints;
-	perlinPoints.insert(perlinPoints.end(), pixels.data(), pixels.data() + (nx*ny));
-	
-
 	// Parametros correspondientes a la textura
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
@@ -77,7 +113,6 @@ void scene_perlin::init() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nx, ny, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
 	glBindTexture(GL_TEXTURE_2D, 0);
-
 
 	std::vector<cgmath::vec3> vertices;
 	std::vector<cgmath::vec2> uvs;
@@ -186,17 +221,22 @@ void scene_perlin::init() {
 	glUniform2f(resolution_location, 400, 400);
 
 	GLuint light_color = glGetUniformLocation(shader_program, "LightColor");
-	glUniform3f(light_color, 1.0f, 1.0f, 1.0f);
+	glUniform3f(light_color, 0.9f, 1.0f, 0.2f);
 
 	GLuint light_position = glGetUniformLocation(shader_program, "LightPosition");
-	glUniform3f(light_position, -10.0f, 10.0f, 10.0f);
+	glUniform3f(light_position, 100.0f, 10.0f, 50.0f);
 
 	GLuint camera_position = glGetUniformLocation(shader_program, "CameraPosition");
-	glUniform3f(camera_position, 140.0f, 45.0f, 150.0f);
+	glUniform3f(camera_position, 2000.0f, 180.0f, 360.0f);
+
+	flag = false;
+	index = 0;
+
+	glPointSize(20);
 }
 
 void scene_perlin::awake() {
-	glClearColor(0.1f, 0.3f, 0.0f, 1.0f);
+	glClearColor(1.0f, 0.5f, 0.0f, 0.0f);
 	glEnable(GL_PROGRAM_POINT_SIZE);
 }
 
@@ -224,12 +264,27 @@ void scene_perlin::mainLoop() {
 	// Matriz con todas las rotaciones, Matriz de modelo
 	cgmath::mat4 model = rotx * roty * rotz;
 
+
+	if (index <= positions.size() && !flag) {
+		flag = false;
+		index++;
+	}
+	if (index == positions.size() || flag) {
+		flag = true;
+		index--;
+	}
+	if (index < 0) {
+		index = 0;
+		flag = false;
+	}
+
 	// ***** Matriz de Vista *****
 	cgmath::mat4 view_matrix(1.0f);
-	view_matrix[3][2] = 200.0f; // Que tan lenjos
-	view_matrix[3][1] = 100.0f; // Altura
-	view_matrix[3][0] = 100.0f; // Centrado
+	view_matrix[3][2] = positions[index].x;//200.0; // Que tan lenjos
+	view_matrix[3][1] = positions[index].y * 1.5; // Altura
+	view_matrix[3][0] = positions[index].z; // Centrado
 	view_matrix = cgmath::mat4::inverse(view_matrix);
+
 
 
 	// ***** Matriz de proyeccion *****
@@ -318,7 +373,7 @@ static void rotationY(cgmath::mat4 &mRotationY) {
 	// del cubo por cada segun de ejecucion
 	float t = time::elapsed_time().count();
 
-	float angleY = (t * 60.0f) * (3.1416 / 180);
+	float angleY = (t * 10.0f) * (3.1416 / 180);
 
 	cgmath::vec4 rotyx(cos(angleY), 0.0f, -sin(angleY), 0.0f);
 	cgmath::vec4 rotyy(0.0f, 1.0f, 0.0f, 0.0f);
@@ -360,37 +415,54 @@ void calculateNormal(std::vector<cgmath::vec3>& normales, std::vector<cgmath::ve
 	}
 }
 
-void calculate_chaikin(int refinamientos, std::vector<cgmath::vec3> positions) {
-	// Funcion para calcular chaikin
-	std::vector<cgmath::vec3> p;
+std::vector<cgmath::vec3> calculate_chaikin(int refinamientos, std::vector<cgmath::vec3> positions, int boca) {
+	std::vector<cgmath::vec3> newPos = positions;
+	// Para los refinamientos
+	for (int i = 0; i < refinamientos; i++) {
 
-	for (unsigned int i = 0; i < (positions.size() - 1); ++i) {
+		std::vector<cgmath::vec3> newPoints;
 
-		const cgmath::vec3& p0 = positions[i];
-		const cgmath::vec3& p1 = positions[i + 1];
-		cgmath::vec3 Q;
-		cgmath::vec3 R;
+		// Para recorrer el arreglo
+		for (int x = 0; x < newPos.size(); x++) {
+			// formula
+			//Qi = (3.0 / 4.0 * Pi) + (1.0 / 4.0 * Pi+1)
+			//Ri = (1.0 / 4.0 * Pi+1) + (3.0 / 4.0 * Pi)
+
+			int next = x + 1;
+
+			if ((x + 1) == newPos.size()) {
+				next = 0;
+
+				if (boca == 2) {
+					next = x;
+				}
+			}
 
 
-		Q.x = 0.75f*p0.x + 0.25f*p1.x;
-		Q.y = 0.75f*p0.y + 0.25f*p1.y;
-		Q.z = 0.75f*p0.z + 0.25f*p1.z;
+			float Qx = (3.0 / 4.0 * newPos[x].x) + (1.0 / 4.0 * newPos[next].x);
+			float Qy = (3.0 / 4.0 * newPos[x].y) + (1.0 / 4.0 * newPos[next].y);
+			float Qz = (3.0 / 4.0 * newPos[x].z) + (1.0 / 4.0 * newPos[next].z);
 
-		R.x = 0.25f*p0.x + 0.75f*p1.x;
-		R.y = 0.25f*p0.y + 0.75f*p1.y;
-		R.z = 0.25f*p0.z + 0.75f*p1.z;
+			float Rx = (3.0 / 4.0 * newPos[next].x) + (1.0 / 4.0 * newPos[x].x);
+			float Ry = (3.0 / 4.0 * newPos[next].y) + (1.0 / 4.0 * newPos[x].y);
+			float Rz = (3.0 / 4.0 * newPos[next].z) + (1.0 / 4.0 * newPos[x].z);
 
-		p.push_back(Q);
-		p.push_back(R);
+			cgmath::vec3 Q = cgmath::vec3(Qx, Qy, Qz);
+			cgmath::vec3 R = cgmath::vec3(Rx, Ry, Rz);
+
+			newPoints.push_back(Q);
+			newPoints.push_back(R);
+		}
+
+		newPos = newPoints;
+		newPoints.clear();
 	}
-	p.push_back(positions[positions.size() - 1]);
 
-	positions = p;
+	return newPos;
+
 }
 
 
-
-
-//Referencias :
+//Referencias:
 // https://github.com/teodorplop/OpenGL-Procedural-Terrain/
 // Alfonso Alquicer
