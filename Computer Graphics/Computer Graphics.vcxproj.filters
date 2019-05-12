@@ -128,5 +128,29 @@
     <None Include="shaders\cube_texture.vert" />
     <None Include="shaders\terrain.vert" />
     <None Include="shaders\terrain.frag" />
+    <None Include="media\getout.ogg" />
+    <None Include="media\MF-3DAYS.S3M" />
+    <None Include="media\MF-PANTS.MOD" />
+    <None Include="media\MF-W-90.XM" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="media\bell.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="media\explosion.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="media\ophelia.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="media\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\crate.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="img\pig.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

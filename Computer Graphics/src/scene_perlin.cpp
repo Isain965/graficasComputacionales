@@ -6,6 +6,7 @@
 #include <iostream>
 #include "mat3.h"
 
+
 // Declaracion de funciones
 // Rotacion de camara
 static void rotationX(cgmath::mat4 &mRotationX);
@@ -20,6 +21,7 @@ void calculateNormal(std::vector<cgmath::vec3>& normales, std::vector<cgmath::ve
 
 scene_perlin::~scene_perlin() {
 	glDeleteProgram(shader_program);
+	engine->drop(); // delete engine
 }
 
 void scene_perlin::init() {
@@ -58,11 +60,11 @@ void scene_perlin::init() {
 			camPosZ.push_back(y);
 		}
 	}
+	
 	for (int x = 0; x < camPosX.size(); x++) {
 		positions.push_back(cgmath::vec3(camPosX[x], camPosY[x], camPosZ[x]));
 	}
-
-	positions = calculate_chaikin(10, positions, 1);
+	positions = calculate_chaikin(5, positions, 1);
 	std::cout << positions.size() << std::endl;
 
 
@@ -70,10 +72,10 @@ void scene_perlin::init() {
 	primitiveType = GL_LINE_STRIP;
 
 	aspect = 1.0f;
-	int size = 180;
+	int size = 200;
 	int nx = 100; //Width
 	int ny = 100; //Heigh
-	int cells = 20; // Densidad de vertices, dado que queremos generar cosas rocosas le pondremos 20
+	int cells = 100; // Densidad de vertices, dado que queremos generar cosas rocosas le pondremos 20
 
 	std::vector<unsigned char> pixels;
 
@@ -99,8 +101,8 @@ void scene_perlin::init() {
 			// con la finalidad de agregar más puntos a partir
 			// de uno
 			pixels.push_back(int(250 * n));
-			pixels.push_back(int(225 * n));
-			pixels.push_back(int(200 * n));
+			pixels.push_back(int(250 * n));
+			pixels.push_back(int(250 * n));
 		}
 	}
 
@@ -233,6 +235,16 @@ void scene_perlin::init() {
 	index = 0;
 
 	glPointSize(20);
+
+
+	/*Para la musica*/
+	if (!engine) {
+		printf("Could not startup engine\n");
+		// error starting up the engine
+	}
+
+	// play some sound stream, looped
+	engine->play2D("media/COTD.mp3", true);
 }
 
 void scene_perlin::awake() {
@@ -251,16 +263,28 @@ void scene_perlin::mainLoop() {
 
 	glUseProgram(shader_program);
 
-
 	// ***** Matriz de modelo *****
-	// Matriz de rotacion en X
-	cgmath::mat4 rotx(1);
-	// Matriz de rotacion en y
-	cgmath::mat4 roty;
-	rotationY(roty);
-	// Matriz de rotacion en z
-	cgmath::mat4 rotz(1);
-	//rotationZ(rotz);
+	if (!manual) {
+		// Matriz de rotacion en X
+		rotx = 1;
+
+		// Matriz de rotacion en y
+		rotationY(roty);
+
+		// Matriz de rotacion en z
+		rotz = 1;
+	} else {
+		// Matriz de rotacion en X
+		rotx = 1;
+
+		// Matriz de rotacion en y
+		rotationY(roty);
+
+		// Matriz de rotacion en z
+		rotz = 1;
+	}
+	
+
 	// Matriz con todas las rotaciones, Matriz de modelo
 	cgmath::mat4 model = rotx * roty * rotz;
 
@@ -279,10 +303,17 @@ void scene_perlin::mainLoop() {
 	}
 
 	// ***** Matriz de Vista *****
-	cgmath::mat4 view_matrix(1.0f);
-	view_matrix[3][2] = positions[index].x;//200.0; // Que tan lenjos
-	view_matrix[3][1] = positions[index].y * 1.5; // Altura
-	view_matrix[3][0] = positions[index].z; // Centrado
+	if (manual) {
+		view_matrix[3][2] = distance; // Distancia
+		view_matrix[3][1] = altura_scene * 1.5; // Altura
+		view_matrix[3][0] = centerPosition; // Centrado
+	} else {
+		view_matrix = 1.0f;
+		view_matrix[3][2] = positions[index].x;//200.0; // Que tan lenjos
+		view_matrix[3][1] = positions[index].y * 1.5; // Altura
+		view_matrix[3][0] = positions[index].z; // Centrado
+	}
+	
 	view_matrix = cgmath::mat4::inverse(view_matrix);
 
 
@@ -335,6 +366,25 @@ void scene_perlin::resize(int width, int height) {
 	aspect = static_cast<float>(width) / static_cast<float>(height);
 }
 
+void scene_perlin::specialKeys(int key) {
+	// std::cout << key << std::endl;
+
+	// Para modificar el centrado
+	if (manual && key == 100) {
+		centerPosition = centerPosition - 5;
+	}
+	if (manual && key == 102) {
+		centerPosition = centerPosition + 5;
+	}
+
+	// Para modificar la altura
+	if (manual && key == 101) {
+		altura_scene = altura_scene + 5;
+	}
+	if (manual && key == 103) {
+		altura_scene = altura_scene - 5;
+	}
+}
 void scene_perlin::normalKeysDown(unsigned char key) {
 	// Para mostrar solo la figura bien
 	if (key == '1') {
@@ -349,6 +399,26 @@ void scene_perlin::normalKeysDown(unsigned char key) {
 	// Para mostrar sobre puestas las lineas reales sobre las deformadas
 	if (key == '3') {
 		primitiveType = GL_TRIANGLES;
+	}
+
+
+	// Para cambiar entre Vista Manual y Predetarminada
+	if (key == 'm') {
+		distance = 400;
+		altura_scene = 85;
+		centerPosition = 150;
+		manual = !manual;
+
+		char state = manual ? 'M': 'P';
+		std::cout << "El estado actual de la camara: " << state << std::endl;
+	}
+
+	// Para modificar la distancia
+	if (manual && key == 'z') {
+		distance = distance + 5;
+	}
+	if (manual && key == 'x') {
+		distance = distance - 5;
 	}
 }
 
@@ -373,7 +443,7 @@ static void rotationY(cgmath::mat4 &mRotationY) {
 	// del cubo por cada segun de ejecucion
 	float t = time::elapsed_time().count();
 
-	float angleY = (t * 10.0f) * (3.1416 / 180);
+	float angleY = (t * -10.0f) * (3.1416 / 180);
 
 	cgmath::vec4 rotyx(cos(angleY), 0.0f, -sin(angleY), 0.0f);
 	cgmath::vec4 rotyy(0.0f, 1.0f, 0.0f, 0.0f);
@@ -466,3 +536,5 @@ std::vector<cgmath::vec3> calculate_chaikin(int refinamientos, std::vector<cgmat
 //Referencias:
 // https://github.com/teodorplop/OpenGL-Procedural-Terrain/
 // Alfonso Alquicer
+// https://www.ambiera.com/irrklang/
+

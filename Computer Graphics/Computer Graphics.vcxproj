@@ -43,7 +43,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\include\;$(SolutionDir)Math\include\;$(SolutionDir)Util\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>assimp-vc140-mt.lib;DevIL.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>irrKlang.lib;assimp-vc140-mt.lib;DevIL.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -90,6 +90,10 @@
     <ClInclude Include="include\scene_perlin.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="media\getout.ogg" />
+    <None Include="media\MF-3DAYS.S3M" />
+    <None Include="media\MF-PANTS.MOD" />
+    <None Include="media\MF-W-90.XM" />
     <None Include="shaders\terrain.frag" />
     <None Include="shaders\terrain.vert" />
     <None Include="shaders\circle.vert" />
@@ -106,6 +110,18 @@
     <None Include="shaders\sphere.vert" />
     <None Include="shaders\texture.frag" />
     <None Include="shaders\texture.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="media\bell.wav" />
+    <Media Include="media\explosion.wav" />
+    <Media Include="media\ophelia.mp3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="media\license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\crate.png" />
+    <Image Include="img\pig.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
